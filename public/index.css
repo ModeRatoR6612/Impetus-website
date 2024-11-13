@@ -1,0 +1,30 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+a{
+  text-decoration: none;
+  color: black;
+}
+.a{
+  color: rgb(108,85,158);
+}
+.a:hover{
+  color: rgb(105, 27, 165);
+  transition: 300ms;
+}
+.a:active{
+  color: rgb(254,207,87);
+  transition: 20ms;
+}
+
+.tiptap, .ProseMirror {
+  height: 600px;
+  max-height: 2000px;
+  width: 1000px;
+  border: 1px solid gray;
+  padding: 10px;
+  overflow-y: scroll;
+}
