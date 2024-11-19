@@ -129,7 +129,7 @@ p{
   height: 50px;
 }
 .applic{
-  width: calc(100%-200px);
+  width: calc(100% - 200px);
   margin: 20px 100px 20px 100px;
   text-align: center;
 }

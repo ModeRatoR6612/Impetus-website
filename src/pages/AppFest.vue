@@ -181,7 +181,7 @@ h2 {
 }
 
 main {
-  width: calc(100%-200px);
+  width: calc(100% - 200px);
   margin: 0 100px;
   justify-content: center;
   flex-wrap: wrap;
