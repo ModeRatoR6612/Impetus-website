@@ -108,7 +108,7 @@ export default {
           <option v-for="age in ageCategories" :value=age>{{ age }}</option>
         </select>
         <p class="text-danger">Уважаемые руководители коллективов и педагоги! Обращаем ваше ВНИМАНИЕ: при подаче заявки
-          выбирайте возрастную категорию, согласно возрасту, ее участник, при возникновении вопрос судейская коллегия
+          выбирайте возрастную категорию, согласно возрасту ее участника. При возникновении вопросов судейская коллегия
           вправе снижать баллы, если указанный возраст участников будет меньше действительного.</p>
       </div>
 
@@ -210,6 +210,7 @@ label {
 }
 
 main {
+  width: calc(100% - 200px);
   max-width: 900px;
   margin: 20px auto 0 auto;
 }
@@ -332,5 +333,18 @@ span{
 hr{
   width: 100%;
   grid-column: span 2;
+}
+
+@media (max-width: 628px) {
+  form{
+    display: flex;
+    flex-direction:column;
+  }
+  .send{
+    margin: auto;
+  }
+  main{
+    width: calc(100% - 100px);
+  }
 }
 </style>

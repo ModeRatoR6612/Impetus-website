@@ -44,7 +44,7 @@ export default{
   <header class="header"><h2 class="header_h2">Дайджест</h2></header>
   <main>
     <div class="cards">
-      <div class="card" v-for="card in cards">
+      <div class="card" v-for="card in cards" :id='card._id'>
         <img :src="'/assets/news/' + card.img" class="card-img-top" alt="..." v-if="card.img"  @click="openModal(card)">
         <div class="card-body"  @click="openModal(card)">
           <p class="card-text">{{ card.title }}</p>
@@ -85,7 +85,7 @@ export default{
 }
 /* Main part */
 .cards{
-  margin: 0 50px;
+  margin: 0 100px;
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -176,5 +176,11 @@ p{
 }
 .text h3, .text p, .text h2, .text h4{
   width: 100%;
+}
+
+@media (max-width: 1024px){
+  .md-img{
+    width: 95%;
+  }
 }
 </style>

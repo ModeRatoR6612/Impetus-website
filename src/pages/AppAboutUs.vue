@@ -12,7 +12,7 @@
 
     </article>
     <section class="advan">
-      <header class="header"><h2 class="header_h2">Наши преимущества</h2></header>
+      <header class="header"><h2 class="header_h2 h2">Наши преимущества</h2></header>
       <div class="d-grid">
         <article>
           <img src="/assets/star.png" alt="" class="star">
@@ -42,7 +42,7 @@
         <article>
           <img src="/assets/star.png" alt="" class="star">
           <div class="empty"></div>
-          <p>Доступные цены.</p>
+          <p>Доступные цены.</p><div class="empty"></div>
           <img src="/assets/line.png" alt="" class="line">
         </article>
       </div>  
@@ -80,8 +80,7 @@ p{
   color: rgb(80, 80, 80)
 }
 .about{
-  max-width: 1600px;
-  margin: 20px auto 20px auto;
+  margin: 20px 100px 20px 100px;
   text-align: center;
 }
 .about p{
@@ -101,7 +100,7 @@ p{
   text-align: center; 
 }
 .advan{
-  margin-bottom: 30px;
+  margin: 20px 50px 50px 50px
 }
 .advan article{
   display: flex;
@@ -130,8 +129,9 @@ p{
   height: 50px;
 }
 .applic{
-  max-width: 1200px;
-  margin: auto;
+  width: calc(100%-200px);
+  margin: 20px 100px 20px 100px;
+  text-align: center;
 }
 .applic p{
   font-size: x-large;
@@ -140,5 +140,18 @@ p{
 .line{
   width: 70%;
   height: 10px;
+}
+.empty{
+  width: 100%;
+}
+@media (max-width: 762px) {
+  .d-grid{
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 490px) {
+  .h2{
+    font-size: 25px !important;
+  }
 }
 </style>

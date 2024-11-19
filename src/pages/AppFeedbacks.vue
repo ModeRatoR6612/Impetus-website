@@ -25,7 +25,7 @@ async function delFeedback(id) {
 <template>
   <header class="header"><h2 class="header_h2">Отзывы</h2></header>
   <div class="main">  
-    <h4>Хотите посмотреть все отзывы или оставить свой? Переходите на нашу <a href="https://vk.com/reviews-211899135#" target="_blank" class="a">страницу в группе в ВКонтакте!</a></h4>
+    <h4>Хотите посмотреть все отзывы или оставить свой? Переходите на нашу <strong><a href="https://vk.com/reviews-211899135#" target="_blank" class="a">страницу в группе в ВКонтакте!</a></strong></h4>
     <div class="feedbacks">
       <div class="fdb" v-for="fdb in feedbacks">
         <div class="avtor"><p>{{fdb.avtor}}, {{ fdb.date }}</p></div>

@@ -72,7 +72,7 @@ export default{
         <img :src="'/assets/news/' + post.img" class="card-img-top" alt="news_img">
         <div class="card-body">
           <p class="card-text">{{post.title}}</p>
-          <RouterLink to="/news" class="a">Узнать больше →</RouterLink>
+          <RouterLink :to="'/news#' + post._id" class="a">Узнать больше →</RouterLink>
         </div>
         <button class="btn btn-danger" v-if="isAdmin" @click="deleteNews(post._id)">Удалить</button>
       </div>
@@ -91,6 +91,7 @@ export default{
   display: flex;
   justify-content: center;
   align-items: center;
+  width: calc(100% - 30px);
 }
 .header_h{
   display: inline-block;
@@ -129,7 +130,7 @@ export default{
   grid-template-columns: auto auto;
   grid-template-rows: auto;
   justify-content: center;
-  margin: 20px 10px 0px 10px;
+  margin: 20px 50px 0px 50px;
 }
 .cards .card{
   max-height: 400px;
@@ -142,7 +143,7 @@ export default{
   max-width: 800px;
 }
 .cards .card-body{
-  max-height: 100px;
+  max-height: 60px;
 }
 .row{
   margin-bottom: 10px;
@@ -175,9 +176,9 @@ export default{
   justify-content: space-between;
 }
 .grid-container{
-  gap: 10px;
-  max-width: calc(100% - 100px);
-  margin: 10px auto 50px auto;
+  gap: 20px;
+  max-width: calc(100% - 150px);
+  margin: 10px 75px 50px 75px;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-template-rows: auto;
   justify-items: center;
@@ -212,5 +213,24 @@ a:active .card-text{
 .a:active{
   color: rgb(254,207,87);
   transition: 20ms;
+}
+
+@media (max-width: 780px) {
+  .grid-container{
+    grid-template-columns: 1fr 1fr;
+  }
+  .cards{
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 512px) {
+  .grid-container{
+    grid-template-columns: auto;
+  }
+}
+@media (max-width: 376px) {
+  .header_h{
+    font-size: 28px;
+  }
 }
 </style>

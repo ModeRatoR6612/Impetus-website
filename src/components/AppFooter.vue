@@ -6,10 +6,10 @@
     <hr style="margin: 5px 0px;">
     <div class="d-flex footer">
       <div class="">
-        <img src="/assets/logo3.png" alt="logo">
-        <div><small>©2024-2024 Импетус</small></div>
+        <img src="/assets/logo3.png" alt="logo" class="logo">
+        <div class="au"><small>©2024-2024 Импетус</small></div>
       </div>
-      <div class="d-flex">
+      <div class="d-flex navs">
         <div class="rasdely">
           <h4 style="margin-left: 15px;"><b>Разделы</b></h4>
           <nav class="d-flex">
@@ -43,7 +43,8 @@
 </template>
 <style scoped>
 footer{
-  margin-top: 10px;
+  margin: 10px 10px 0 10px;
+  width: calc(100% - 20px);
 }
 .footer{
   justify-content: space-around;
@@ -79,5 +80,19 @@ small{
 }
 p{
   margin: 0px;
+}
+@media (max-width: 760px) {
+  .logo{
+    display: none;
+  }
+  .au{
+    display: none;
+  }
+  .navs{
+    justify-content: space-around;
+  }
+  .footer{
+    display: block !important;
+  }
 }
 </style>

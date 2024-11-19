@@ -7,7 +7,6 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { Festivals, News, Applications, Feedbacks } from './models.js'
-import { get } from 'http';
 
 const app = express();
 const port = 3000;
@@ -27,7 +26,7 @@ mongoose.connect('mongodb://localhost:27017/Impetus_project')
   .then((res) => console.log('Conected to MongoDB'))
   .catch((error) => console.log(error));
 
-let isAdmin = true;
+let isAdmin = false;
 
 app.listen(port, () =>{
   console.log(`localhost:${port}`);

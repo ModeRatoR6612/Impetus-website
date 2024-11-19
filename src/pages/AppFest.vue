@@ -13,6 +13,9 @@ export default{
     async loadFest(){
       let response = await axios.get('/festival', {params: {id: this.$route.params.id}});
       this.fest = response.data;
+      this.fest.nominations = this.fest.nominations.replace(/,/g, ', ');
+      this.fest.ageCategories = this.fest.ageCategories.replace(/,/g, ', ');
+      this.fest.groupCategories = this.fest.groupCategories.replace(/,/g, ', ');
     }
   },
 }
@@ -25,7 +28,7 @@ export default{
     <div class="empty"></div>
     <div class="btns">
       <button class="btn">Скачать положение</button>
-      <button class="btn">Подать заявку</button>
+      <button class="btn" @click="()=>{this.$router.push('/application')}">Подать заявку</button>
     </div>
     <div class="empty"></div>
     <div class="accordion">
@@ -171,9 +174,15 @@ h2 {
 }
 .fest_img {
   margin-bottom: 20px;
+  width: 100%; /* Или максимальная ширина */
+  max-width: 100%; /* Убедиться, что не превышает размеры родителя */
+  height: auto; /* Сохранить пропорции */
+  display: block; /* Устранить возможные отступы inline-элементов */
 }
 
 main {
+  width: calc(100%-200px);
+  margin: 0 100px;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -194,6 +203,9 @@ main {
   max-width: 1300px;
   margin-top: 20px;
   width: 100%;
+}
+.accordion-body{
+  padding-top: 4px;
 }
 .accordion-button{
   font-weight: bold;
