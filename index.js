@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 import { Festivals, News, Applications, Feedbacks } from './models.js'
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // настройка работы с файловой системой
 const __filename = fileURLToPath(import.meta.url);
@@ -22,13 +22,13 @@ app
 
 app.use(cors({origin: 'http://localhost:5173'}));
 
-mongoose.connect('mongodb://localhost:27017/Impetus_project')
+mongoose.connect(process.env.MONGODB_URL)
   .then((res) => console.log('Conected to MongoDB'))
   .catch((error) => console.log(error));
 
 let isAdmin = false;
 
-app.listen(port, () =>{
+app.listen(port || 3000, () =>{
   console.log(`localhost:${port}`);
 })
 
