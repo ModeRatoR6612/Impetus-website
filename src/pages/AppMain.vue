@@ -134,7 +134,6 @@ export default{
 }
 .cards .card{
   max-height: 400px;
-  min-width: 360px;
   max-width: 800px;
 }
 .cards .card-img-top{
@@ -160,7 +159,6 @@ export default{
 }
 /* карточки в новостях */
 .news .card{
-  min-width: 300px;
   max-width: 512px;
 }
 .news .card-img-top{
@@ -187,6 +185,7 @@ export default{
 .admin{
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 10px;
   gap: 10px;
 }
@@ -216,21 +215,31 @@ a:active .card-text{
 }
 
 @media (max-width: 780px) {
-  .grid-container{
-    grid-template-columns: 1fr 1fr;
-  }
   .cards{
     grid-template-columns: 1fr;
   }
 }
-@media (max-width: 512px) {
-  .grid-container{
-    grid-template-columns: auto;
+@media (max-width: 550px) {
+  .cards .card-text{
+    font-size: 18px;
+  }
+  .card-body{
+    padding: 8px;
+  }
+  .card-text{
+    margin-bottom: 8px;
   }
 }
-@media (max-width: 376px) {
+@media (max-width: 480px) {
   .header_h{
     font-size: 28px;
+  }
+  .grid-container{
+    max-width: calc(100% - 25px);
+    margin: 12.5px;
+  }
+  .cards{
+    margin: 15px;
   }
 }
 </style>

@@ -180,7 +180,15 @@ p{
 
 @media (max-width: 1024px){
   .md-img{
-    width: 95%;
+    width: 100%;
+  }
+}
+@media (max-width: 650px) {
+  .cards{
+    margin: 0 25px;
+  }
+  .content{
+    padding: 5px 40px;
   }
 }
 </style>

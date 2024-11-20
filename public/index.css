@@ -23,7 +23,7 @@ a{
 .tiptap, .ProseMirror {
   height: 600px;
   max-height: 2000px;
-  width: 1000px;
+  max-width: 1000px;
   border: 1px solid gray;
   padding: 10px;
   overflow-y: scroll;

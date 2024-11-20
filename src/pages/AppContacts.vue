@@ -39,5 +39,6 @@ p{
   margin: auto;
   margin-top: 20px;
   max-width: 1000px;
+  width: calc(100% - 20px);
 }
 </style>

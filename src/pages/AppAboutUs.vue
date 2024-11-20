@@ -153,5 +153,12 @@ p{
   .h2{
     font-size: 25px !important;
   }
+  .about{
+    margin: 20px 25px;
+  }
+  .applic{
+    margin: 20px 25px;
+    width: calc(100% - 50px);
+  }
 }
 </style>

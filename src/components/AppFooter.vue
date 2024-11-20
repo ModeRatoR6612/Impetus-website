@@ -11,7 +11,7 @@
       </div>
       <div class="d-flex navs">
         <div class="rasdely">
-          <h4 style="margin-left: 15px;"><b>Разделы</b></h4>
+          <h4 class="rasdely_h"><b>Разделы</b></h4>
           <nav class="d-flex">
             <ul>
               <li><RouterLink to="/main"><b>Конкурсы</b></RouterLink></li>
@@ -81,6 +81,9 @@ small{
 p{
   margin: 0px;
 }
+.rasdely_h{
+  margin-left: 15px;
+}
 @media (max-width: 760px) {
   .logo{
     display: none;
@@ -93,6 +96,17 @@ p{
   }
   .footer{
     display: block !important;
+  }
+}
+@media (max-width: 480px) {
+  .navs{
+    flex-direction: column;
+  }
+  .rasdely{
+    margin: 0;
+  }
+  .rasdely_h{
+    margin-left: 0;
   }
 }
 </style>

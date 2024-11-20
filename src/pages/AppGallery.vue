@@ -111,4 +111,10 @@ label{
   width: 65%;
   margin: 20px auto 50px auto;
 }
+@media (max-width: 768px) {
+  .carousel{
+    width: 90%;
+    
+  }
+}
 </style>

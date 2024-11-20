@@ -190,9 +190,14 @@ main {
   color: rgb(108, 85, 158);
   font-weight: bold;
   border-color: rgb(108, 85, 158);
-  margin-left: 10px;
   height: 50px;
   width: 182px;
+}
+.btns{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 .btn:active {
   color: rgb(254, 207, 87);
@@ -217,5 +222,12 @@ main {
 .accordion-button:focus{
   border-color: white;
   box-shadow: none;
+}
+
+@media (max-width: 620px) {
+  main{
+    width: calc(100% - 50px);
+    margin: 0 25px;
+  }
 }
 </style>

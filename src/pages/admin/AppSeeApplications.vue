@@ -41,7 +41,7 @@ async function deleteFestival(id){
 }
 </script>
 <template>
-  <div v-if="isAdmin">
+  <div v-if="isAdmin" class="cont">
     <div class="d-flex justify-content-center"><button class="btn btn-primary" @click="seeTable">Показать таблицу</button></div>
     <div class="fests" v-if="isTable">
       <div class="d-grid">
@@ -138,5 +138,8 @@ hr{
 }
 .btn-danger{
   width: 100px;
+}
+.cont{
+  margin-left: 5px;
 }
 </style>
