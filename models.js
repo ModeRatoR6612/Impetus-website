@@ -13,6 +13,7 @@ let festivalsSchema = new mongoose.Schema({
   packet: String,
   contacts: String,
   img: String,
+  f: String,
 })
 let Festivals = mongoose.model('festivals', festivalsSchema);
 

@@ -64,7 +64,7 @@ export default{
     </div>
   </section>
   <div class="no_data" v-if="fests.length < 1">Список фестивалей пуст.</div>
-
+  
   <section class="news">
   <div class="header head2"><h2 class="header_h">Дайджест</h2></div>
     <div class="grid-container d-grid">

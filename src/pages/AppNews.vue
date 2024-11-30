@@ -43,6 +43,7 @@ export default{
 <template>
   <header class="header"><h2 class="header_h2">Дайджест</h2></header>
   <main>
+    <div class="no_data" v-if="cards.length < 1">Список новостей пуст.</div>
     <div class="cards">
       <div class="card" v-for="card in cards" :id='card._id'>
         <img :src="'/assets/news/' + card.img" class="card-img-top" alt="..." v-if="card.img"  @click="openModal(card)">
@@ -177,7 +178,12 @@ p{
 .text h3, .text p, .text h2, .text h4{
   width: 100%;
 }
-
+.no_data{
+  font-size: x-large;
+  color: rgb(110, 110, 110);
+  display: flex;
+  justify-content: center
+}
 @media (max-width: 1024px){
   .md-img{
     width: 100%;

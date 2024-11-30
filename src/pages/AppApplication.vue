@@ -127,7 +127,7 @@ export default {
       <div class="form-check" id="personal">
         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
         <label class="form-check-label" for="flexCheckDefault">Согласие на обработку персональных данных, ознакомление с
-          <a href="">Договором оферты</a>.</label>
+          <a href="/public/assets/ofert.docx" download>Договором оферты</a>.</label>
       </div>
 
       <button class="send" type="submit">Отправить</button>
@@ -138,6 +138,8 @@ export default {
     <div class="red" v-if="isSend == 2">
       <p class="text-danger fs-4">Заявка не была отправлена, попробуйте еще!</p>
     </div>
+
+    <!-- Аккордион -->
     <div class="accordion" id="outerAccordion">
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">

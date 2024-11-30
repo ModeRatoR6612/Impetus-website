@@ -27,7 +27,7 @@ export default{
     <img :src="'/assets/' + fest.img" alt="fest_img" class="fest_img">
     <div class="empty"></div>
     <div class="btns">
-      <button class="btn">Скачать положение</button>
+      <a :href="'/public/assets/files/' + fest.f" download v-if="fest.f"><button class="btn">Скачать положение</button></a>
       <button class="btn" @click="()=>{this.$router.push('/application')}">Подать заявку</button>
     </div>
     <div class="empty"></div>
@@ -174,7 +174,7 @@ h2 {
 }
 .fest_img {
   margin-bottom: 20px;
-  width: 100%; /* Или максимальная ширина */
+  width: 76%; /* Или максимальная ширина */
   max-width: 100%; /* Убедиться, что не превышает размеры родителя */
   height: auto; /* Сохранить пропорции */
   display: block; /* Устранить возможные отступы inline-элементов */
@@ -224,10 +224,15 @@ main {
   box-shadow: none;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 720px) {
   main{
     width: calc(100% - 50px);
     margin: 0 25px;
+  }
+}
+@media (max-width: 1440px) {
+  .fest_img{
+    width: 100%;
   }
 }
 </style>

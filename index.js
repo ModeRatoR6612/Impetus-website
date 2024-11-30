@@ -7,9 +7,10 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { Festivals, News, Applications, Feedbacks } from './models.js'
+import { log } from 'console';
 
 const app = express();
-const port = process.env.PORT;
+const port = 3000;  // process.env.PORT
 
 // настройка работы с файловой системой
 const __filename = fileURLToPath(import.meta.url);
@@ -22,7 +23,7 @@ app
 
 app.use(cors({origin: 'http://localhost:5173'}));
 
-mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect('mongodb://localhost:27017/Impetus_project')  // process.env.MONGODB
   .then((res) => console.log('Conected to MongoDB'))
   .catch((error) => console.log(error));
 
@@ -50,6 +51,7 @@ app.post('/main/delFestival', async (req, res) => {
   try {
     let data = await Festivals.findById(id, {img:1, _id:0});
     var imgName = data.img;
+    var fName = data.f;
   } catch (error) {
     console.log('не найден фестиваль'+error);
   }
@@ -62,6 +64,12 @@ app.post('/main/delFestival', async (req, res) => {
 
   try {
     await fs.unlink(path.join(__dirname, 'public/assets', imgName));
+  } catch (error) {
+    console.log('не удален или не найден файл'+error);
+  }
+
+  try {
+    await fs.unlink(path.join(__dirname, 'public/assets/files', fName));
   } catch (error) {
     console.log('не удален или не найден файл'+error);
   }
@@ -96,24 +104,33 @@ app.get('/festival', async (req, res) => {
 
 app.post('/createFestival', async (req, res) => {
   let {name, nominations, ageCategories, groupCategories, about, place, joinConditions, judges, moneyConditions, packet, contacts} = req.body;
-  let img = req.files ? req.files.file : null;
+  let img = req.files.img ? req.files.img : null;
+  let f = req.files.file ? req.files.file : null;
+
+  let imgName = req.files.img ? img.name : null;
+  let fName = req.files.file ? f.name : null;
+
   if(img){
-    img.mv(path.join(__dirname, 'public/assets', img.name))
+    img.mv(path.join(__dirname, 'public/assets', imgName))
   }
-  let imgName = img.name
+  if (f) {
+    f.mv(path.join(__dirname, 'public/assets/files', fName))
+  }
+
   let fest = new Festivals({
     name: name,
     nominations: nominations,
     ageCategories: ageCategories,
     groupCategories: groupCategories,
-    about: about, 
+    about: about,
     place: place,
     joinConditions: joinConditions, 
     judges: judges,
     moneyConditions: moneyConditions,
     packet: packet,
     contacts: contacts,
-    img: imgName
+    img: imgName,
+    f: fName,
   })
   
   await fest.save()

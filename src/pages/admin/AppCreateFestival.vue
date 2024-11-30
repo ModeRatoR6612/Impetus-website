@@ -25,6 +25,7 @@ let moneyConditions = ref('');
 let packet = ref('');
 let contacts = ref('');
 let img = ref(null);
+let f = ref(null);
 
 onBeforeMount(async () =>{
   let response = await axios.get('/createFestival');
@@ -33,6 +34,9 @@ onBeforeMount(async () =>{
 
 let onFileChange = (e) => {
   img.value = e.target.files[0];
+}
+let onFileChangeFile = (e) => {
+  f.value = e.target.files[0];
 }
 
 let createFestival = async function(){  
@@ -48,7 +52,8 @@ let createFestival = async function(){
   formData.append('moneyConditions', moneyConditions.value);
   formData.append('packet', packet.value);
   formData.append('contacts', contacts.value);
-  formData.append('file', img.value);
+  formData.append('img', img.value);
+  formData.append('file', f.value);
   try {
     isAdded.value = 1;
     await axios.post('/createFestival', formData, {headers: { 'Content-Type': 'multipart/form-data' }});
@@ -70,6 +75,7 @@ function cleanField(){
   packet.value = '';
   contacts.value = '';
   img.value = '';
+  f.value = '';
 }
 </script>
 <template>
@@ -80,9 +86,9 @@ function cleanField(){
       <textarea v-model="nominations" type="textArea" placeholder="Номинации" id="2"></textarea>
       <label for="2" class="text-danger fs-6">Строго разделяя через запятую, пример: Классический танец,Неоклассика,Брейкинг</label>
       <textarea v-model="ageCategories" type="text" placeholder="Возрастные категории" id="3"></textarea>
-      <label for="2" class="text-danger fs-6">Строго разделяя через запятую, пример: Классический танец,Неоклассика,Брейкинг</label>
+      <label for="3" class="text-danger fs-6">Строго разделяя через запятую, пример: Классический танец,Неоклассика,Брейкинг</label>
       <textarea v-model="groupCategories" type="text" placeholder="Групповые категории" id="4"></textarea>
-      <label for="2" class="text-danger fs-6">Строго разделяя через запятую, пример: Классический танец,Неоклассика,Брейкинг</label>
+      <label for="4" class="text-danger fs-6">Строго разделяя через запятую, пример: Классический танец,Неоклассика,Брейкинг</label>
       <textarea v-model="about" type="text" placeholder="О фестивале" id="5"></textarea>
       <input v-model="place" type="text" placeholder="Место проведения" id="6">
       <textarea v-model="joinConditions" type="text" placeholder="Условия участия" id="7"></textarea>
@@ -90,8 +96,13 @@ function cleanField(){
       <textarea v-model="moneyConditions" type="text" placeholder="Финансовые условия" id="9"></textarea>
       <textarea v-model="packet" type="text" placeholder="Пакет путевки" id="10"></textarea>
       <textarea v-model="contacts" type="text" placeholder="Контакты" id="11"></textarea>
+
+      <label for="13">Загрузите положение фестиваля</label>
+      <input type="file" id="13" @change="onFileChangeFile">
+
       <label for="12">Выберите изображение фестиваля</label>
       <input type="file" id="12" required accept="image/*" @change="onFileChange">
+      <p class="text-danger fs-6">Название файлов должно быть на АНГЛИЙСКОМ ЯЗЫКЕ!</p>
       <button class="btn btn-primary" type="submit" id="3">Создать</button>
     </form>
     <div class="text-success fs-5" v-if="isAdded==1">Успешно создано!</div>
