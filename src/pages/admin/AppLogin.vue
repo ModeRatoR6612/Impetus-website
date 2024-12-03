@@ -3,8 +3,8 @@ import axios from 'axios'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 import {ref} from 'vue'
 
-let trueLogin = 'admin';
-let truePassword = 'admin';
+const trueLogin = 'impetus39';
+const truePassword = 'melnikova1993';
 let isVisible = ref(true);
 let isLog = ref(false)
 let login = ref('');

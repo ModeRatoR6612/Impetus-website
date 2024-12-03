@@ -21,7 +21,7 @@ app
   .use(express.static('public'))
   .use(fileUpload())
 
-app.use(cors({origin: 'http://localhost:5173'}));
+app.use(cors({origin: ['http://localhost:5173', 'http://77.222.47.161:5173']}));
 
 mongoose.connect('mongodb://localhost:27017/Impetus_project')  // process.env.MONGODB
   .then((res) => console.log('Conected to MongoDB'))
