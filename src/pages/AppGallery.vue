@@ -9,7 +9,7 @@ let imgsNames = ref([]);
 
 let loadData = async function(){
   let response = await axios.get('/gallery');
-  imgsNames.value = response.data.files;
+  imgsNames.value = response.data;
   if (sessionStorage.getItem('isAdmin') == 'true') {
     isAdmin.value = true;
   } else{

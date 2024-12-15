@@ -17,7 +17,8 @@ onBeforeMount(()=> {loadData()})
 
 async function loadData (){
   let response = await axios.get('/seeApplications');
-  applications.value = response.data.applications;
+  applications.value = response.data;
+  
   if (sessionStorage.getItem('isAdmin') == 'true') {
     isAdmin.value = true;
   } else{

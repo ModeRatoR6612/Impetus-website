@@ -207,10 +207,7 @@ app.post('/application', async (req, res) => {
 
 app.get('/seeApplications', async (req, res) => {
   let applications = await Applications.find();
-  let object = {
-    applications,
-  }
-  res.send(object)
+  res.send(applications)
 });
 
 app.post('/delApplications', async (req, res) => {

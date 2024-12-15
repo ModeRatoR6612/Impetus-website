@@ -23,7 +23,7 @@ async function getFeedbacks(){
   } else{
     isAdmin.value = false;
   }
-  feedbacks.value = response.data.feedbacks.map(fdb => ({
+  feedbacks.value = response.data.map(fdb => ({
     ...fdb,
     text: convertHtml(fdb.text) // Преобразуем текст
   }));

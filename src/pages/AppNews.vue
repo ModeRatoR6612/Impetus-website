@@ -26,7 +26,7 @@ export default{
     },
     async loadData(){
       let response = await axios.get('/news');
-      this.cards = response.data.news;
+      this.cards = response.data;
       if (sessionStorage.getItem('isAdmin') == 'true') {
         this.isAdmin = true;
       } else{
@@ -56,7 +56,7 @@ export default{
 <template>
   <header class="header"><h2 class="header_h2">Дайджест</h2></header>
   <main>
-    <div class="no_data" v-if="cards.length < 1">Список новостей пуст.</div>
+    <div class="no_data" v-if="cards && cards.length < 1">Список новостей пуст.</div>
     <div class="cards">
       <div class="card" v-for="card in cards" :id='card._id'>
         <img :src="'/assets/news/' + card.img" class="card-img-top" alt="..." v-if="card.img"  @click="openModal(card)">
