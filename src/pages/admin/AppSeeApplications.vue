@@ -2,7 +2,6 @@
 import axios from 'axios';
 import {ref, onBeforeMount, computed} from 'vue';
 import { useHead } from '@vueuse/head';
-import { application } from 'express';
 useHead({
   title: 'Просмотр заявок',
   meta : [
@@ -25,7 +24,7 @@ async function loadData (){
   } else{
     isAdmin.value = false;
   }
-  if (application.value) {
+  if (applications.value) {
     applications.value.sort((a, b) => {
     if (a.festival < b.festival) return -1;
     if (a.festival > b.festival) return 1;
