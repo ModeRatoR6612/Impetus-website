@@ -2,6 +2,7 @@
 import axios from 'axios';
 import {ref, onBeforeMount, computed} from 'vue';
 import { useHead } from '@vueuse/head';
+import { application } from 'express';
 useHead({
   title: 'Просмотр заявок',
   meta : [
@@ -18,17 +19,19 @@ onBeforeMount(()=> {loadData()})
 async function loadData (){
   let response = await axios.get('/seeApplications');
   applications.value = response.data;
-  
+
   if (sessionStorage.getItem('isAdmin') == 'true') {
     isAdmin.value = true;
   } else{
     isAdmin.value = false;
   }
-  applications.value.sort((a, b) => {
-  if (a.festival < b.festival) return -1;
-  if (a.festival > b.festival) return 1;
-  return 0;
-});
+  if (application.value) {
+    applications.value.sort((a, b) => {
+    if (a.festival < b.festival) return -1;
+    if (a.festival > b.festival) return 1;
+    return 0;
+    });
+  }
 }
 
 const reversedApplications = computed(() => {
