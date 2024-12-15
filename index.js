@@ -6,11 +6,14 @@ import fs from 'fs/promises';
 import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { Festivals, News, Applications, Feedbacks } from './models.js'
-import { log } from 'console';
+import { Festivals, News, Applications, Feedbacks } from './models.js';
+import https from 'https';
+import http from 'http';
 
 const app = express();
 const port = 3000;  // process.env.PORT
+const HTTPport = 800;
+const HOST = '0.0.0.0';
 
 // настройка работы с файловой системой
 const __filename = fileURLToPath(import.meta.url);
@@ -21,17 +24,31 @@ app
   .use(express.static('public'))
   .use(fileUpload())
 
-app.use(cors({origin: ['http://localhost:5173', 'http://77.222.47.161:5173']}));
+app.use(cors({origin: ['http://localhost:5173', 'http://77.222.47.161', 'http://impetus39.ru', 'https://impetus39.ru', 'http://77.222.47.161:5173', 'https://77.222.47.161'], credentials: true}));
 
-mongoose.connect('mongodb://localhost:27017/Impetus_project')  // process.env.MONGODB
+mongoose.connect('mongodb://127.0.0.1:27017/Impetus_project')  // process.env.MONGODB
   .then((res) => console.log('Conected to MongoDB'))
   .catch((error) => console.log(error));
 
-let isAdmin = false;
+// Настройка серверов для работы на VPS
 
-app.listen(port || 3000, () =>{
-  console.log(`localhost:${port}`);
-})
+const sslOptions = {
+  key: await fs.readFile ('/etc/letsencrypt/live/impetus39.ru/privkey.pem'),
+  cert: await fs.readFile ('/etc/letsencrypt/live/impetus39.ru/fullchain.pem'),
+};
+
+
+http.createServer(app).listen(HTTPport, () => {
+  console.log(`HTTP server is running on http://localhost:${HTTPport}`)
+});
+
+https.createServer(sslOptions, app).listen(port, () => {
+  console.log(`HTTPS Server running on https://localhost:${port}`);
+});
+
+// app.listen(port, () =>{
+//   console.log(`localhost:${port}`)
+// })
 
                                                                       // Основная страница
 
@@ -41,7 +58,6 @@ app.get('/main', async (req, res) => {
   let object = {
     cards,
     news,
-    isAdmin,
   }
   res.send(object);
 });
@@ -64,12 +80,14 @@ app.post('/main/delFestival', async (req, res) => {
 
   try {
     await fs.unlink(path.join(__dirname, 'public/assets', imgName));
+    await fs.unlink(path.join(__dirname, 'dist/assets', imgName));
   } catch (error) {
     console.log('не удален или не найден файл'+error);
   }
 
   try {
     await fs.unlink(path.join(__dirname, 'public/assets/files', fName));
+    await fs.unlink(path.join(__dirname, 'dist/assets/files', fName));
   } catch (error) {
     console.log('не удален или не найден файл'+error);
   }
@@ -82,15 +100,11 @@ app.post('/main/delNews', async (req, res) => {
     let data = await News.findById(id, {img:1, _id:0});
     let imgName = data.img;
     await News.findByIdAndDelete(id);
-    await fs.unlink(path.join(__dirname, 'public/assets', imgName));
+    await fs.unlink(path.join(__dirname, 'public/assets/news', imgName));
+    await fs.unlink(path.join(__dirname, 'dist/assets/news', imgName));
   } catch (error) {
     console.log(error);
   }
-  res.redirect('/main')
-});
-
-app.post('/main/quitAdmin', (req, res) => {
-  isAdmin = false;
   res.redirect('/main')
 });
 
@@ -112,9 +126,11 @@ app.post('/createFestival', async (req, res) => {
 
   if(img){
     img.mv(path.join(__dirname, 'public/assets', imgName))
+    img.mv(path.join(__dirname, 'dist/assets', imgName))
   }
   if (f) {
     f.mv(path.join(__dirname, 'public/assets/files', fName))
+    f.mv(path.join(__dirname, 'dist/assets/files', fName))
   }
 
   let fest = new Festivals({
@@ -136,10 +152,6 @@ app.post('/createFestival', async (req, res) => {
   await fest.save()
 });
 
-app.get('/createFestival', async (req, res) => {
-  res.send(isAdmin)
-});
-
                                                                                           // Новости
 app.post('/createNews', async (req, res) => {
   let {title} = req.body;
@@ -148,7 +160,8 @@ app.post('/createNews', async (req, res) => {
   let img = req.files ? req.files.file : false;
 
   if(img){
-    img.mv(path.join(__dirname, 'public/assets/news', img.name))
+    img.mv(path.join(__dirname, 'public/assets/news', img.name));
+    img.mv(path.join(__dirname, 'dist/assets/news', img.name));
   }
   let imgName = img.name;
   let news = new News({
@@ -158,10 +171,6 @@ app.post('/createNews', async (req, res) => {
     date: date,
   })
   await news.save()
-});
-
-app.get('/createNews', async (req, res) => {
-  res.send(isAdmin)
 });
 
                                                                                               // Заявки
@@ -200,7 +209,6 @@ app.get('/seeApplications', async (req, res) => {
   let applications = await Applications.find();
   let object = {
     applications,
-    isAdmin
   }
   res.send(object)
 });
@@ -225,13 +233,14 @@ app.get('/gallery', async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  res.send({files, isAdmin})
+  res.send(files)
 });
 
 app.post('/gallery', async (req, res) => {
   let img = req.files ? req.files.file : null;
   if(img){
     img.mv(path.join(__dirname, 'public/assets/gallery', img.name))
+    img.mv(path.join(__dirname, 'dist/assets/gallery', img.name))
   }
   res.redirect('/gallery')
 });
@@ -240,6 +249,7 @@ app.post('/gallery/delImg', async (req, res) => {
   let file = req.body.file;
   try {
     await fs.unlink(path.join(__dirname, 'public/assets/gallery', file));
+    await fs.unlink(path.join(__dirname, 'dist/assets/gallery', file));
   } catch (error) {
     console.log('не удален или не найден файл'+error);
   }
@@ -248,11 +258,7 @@ app.post('/gallery/delImg', async (req, res) => {
 
 app.get('/news', async (req, res) => {
   let news = await News.find();
-  let object = {
-    news,
-    isAdmin,
-  }
-  res.send(object)
+  res.send(news)
 });
 
 app.post('/delNews', async (req, res) => {
@@ -262,6 +268,7 @@ app.post('/delNews', async (req, res) => {
     if (data.img){
       let imgName = data.img;
       await fs.unlink(path.join(__dirname, 'public/assets/news', imgName));
+      await fs.unlink(path.join(__dirname, 'dist/assets/news', imgName));
     }
     await News.findByIdAndDelete(id);
   } catch (error) {
@@ -271,9 +278,6 @@ app.post('/delNews', async (req, res) => {
 });
 
                                                                                         // Отзывы
-app.get('/createFeedback', async (req, res) => {
-  res.send(isAdmin)
-}); 
 app.post('/createFeedback', async (req, res) => {
   let {text, avtor, date} = req.body;
   let feedback = new Feedbacks({
@@ -286,11 +290,7 @@ app.post('/createFeedback', async (req, res) => {
 
 app.get('/feedbacks', async (req, res) => {
   let feedbacks = await Feedbacks.find();
-  let object = {
-    isAdmin, 
-    feedbacks
-  }
-  res.send(object);
+  res.send(feedbacks);
 });
 
 app.post('/delFeedback', async (req, res) => {
@@ -303,8 +303,3 @@ app.post('/delFeedback', async (req, res) => {
   res.redirect('/feedbacks')
 });
                                                                                         // Логин в админку
-
-app.post('/login', async (req, res) => {
-  isAdmin = req.body.isAdmin;
-  console.log(isAdmin);
-})

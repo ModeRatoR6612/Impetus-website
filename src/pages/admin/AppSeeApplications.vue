@@ -18,7 +18,11 @@ onBeforeMount(()=> {loadData()})
 async function loadData (){
   let response = await axios.get('/seeApplications');
   applications.value = response.data.applications;
-  isAdmin.value = response.data.isAdmin;
+  if (sessionStorage.getItem('isAdmin') == 'false') {
+    isAdmin.value = false;
+  } else{
+    isAdmin.value = true;
+  }
   applications.value.sort((a, b) => {
   if (a.festival < b.festival) return -1;
   if (a.festival > b.festival) return 1;

@@ -9,10 +9,11 @@ export default{
     return{
       fests: [],
       news: [],
-      isAdmin: null,
+      isAdmin: false,
     };
   },
   mounted(){
+    console.log('Base URL in Component:', axios.defaults.baseURL);   // Show baseURL on VPS
     this.loadData();
   },
   methods:{
@@ -20,7 +21,11 @@ export default{
       let response = await axios.get('/main');
       this.fests = response.data.cards;
       this.news = response.data.news;
-      this.isAdmin = response.data.isAdmin;
+      if (sessionStorage.getItem('isAdmin') == 'false') {
+        this.isAdmin = false;
+      } else{
+        this.isAdmin = true;
+      }
       console.log(this.isAdmin);
     },
     async deleteCard(id){
@@ -38,8 +43,8 @@ export default{
       this.loadData()
     },
     quitAdmin(){
-      axios.post('/main/quitAdmin');
-      this.isAdmin = false;
+      sessionStorage.setItem('isAdmin', false);
+      this.loadData();
     }
   }
 }
@@ -56,7 +61,7 @@ export default{
   <section class="cards">
     <div class="card" v-for="fest in fests">
       <RouterLink :to="{name: 'festival', params: {id: fest._id}}">
-      <img :src="'/assets/' + fest.img" class="card-img-top" alt="festival_picture">
+      <img :src="'assets/' + fest.img" class="card-img-top" alt="festival_picture">
       <div class="card-body">
         <p class="card-text">{{fest.name}}</p>
       </div></RouterLink>
@@ -69,7 +74,7 @@ export default{
   <div class="header head2"><h2 class="header_h">Дайджест</h2></div>
     <div class="grid-container d-grid">
       <div class="card" v-for="post in news">
-        <img :src="'/assets/news/' + post.img" class="card-img-top" alt="news_img">
+        <img :src="'assets/news/' + post.img" class="card-img-top" alt="news_img">
         <div class="card-body">
           <p class="card-text">{{post.title}}</p>
           <RouterLink :to="'/news#' + post._id" class="a">Узнать больше →</RouterLink>

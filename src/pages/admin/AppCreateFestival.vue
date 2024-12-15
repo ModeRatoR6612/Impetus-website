@@ -28,8 +28,11 @@ let img = ref(null);
 let f = ref(null);
 
 onBeforeMount(async () =>{
-  let response = await axios.get('/createFestival');
-  isAdmin.value = response.data;
+  if (sessionStorage.getItem('isAdmin') == 'false') {
+    isAdmin.value = false;
+  } else{
+    isAdmin.value = true;
+  }
 });
 
 let onFileChange = (e) => {

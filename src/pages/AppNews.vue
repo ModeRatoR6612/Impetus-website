@@ -18,14 +18,27 @@ export default{
     this.loadData()
   },
   methods:{
+    convertHtml(html) {
+    // Заменяем <pre><code> на <p><em>
+      return html
+        .replace(/<pre><code[^>]*>/g, '<p><em>')
+        .replace(/<\/code><\/pre>/g, '</em></p>');
+    },
     async loadData(){
-      let response = await axios.get('/news')
-      this.cards = response.data.news
-      this.isAdmin = response.data.isAdmin
+      let response = await axios.get('/news');
+      this.cards = response.data.news;
+      if (sessionStorage.getItem('isAdmin') == 'false') {
+        this.isAdmin = false;
+      } else{
+        this.isAdmin = true;
+      }
     },
     openModal(e){
       this.isVis = true
-      this.modalContent = e
+      this.modalContent = {
+        ...e,
+        text: this.convertHtml(e.text) // применяем convertHtml для текста
+      };
     },
     closeModal(){
       this.isVis = false

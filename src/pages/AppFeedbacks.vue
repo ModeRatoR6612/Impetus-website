@@ -8,10 +8,25 @@ let feedbacks = ref([]);
 onBeforeMount(() =>{
   getFeedbacks();
 })
+
+function convertHtml(html) {
+  // Заменяем <pre><code> на <p><em>
+  return html
+    .replace(/<pre><code[^>]*>/g, '<p><em>')
+    .replace(/<\/code><\/pre>/g, '</em></p>');
+}
+
 async function getFeedbacks(){
   let response = await axios.get('/feedbacks');
-  isAdmin.value = response.data.isAdmin;
-  feedbacks.value = response.data.feedbacks;
+  if (sessionStorage.getItem('isAdmin') == 'false') {
+    isAdmin.value = false;
+  } else{
+    isAdmin.value = true;
+  }
+  feedbacks.value = response.data.feedbacks.map(fdb => ({
+    ...fdb,
+    text: convertHtml(fdb.text) // Преобразуем текст
+  }));
 }
 
 async function delFeedback(id) {
@@ -26,15 +41,17 @@ async function delFeedback(id) {
   <header class="header"><h2 class="header_h2">Отзывы</h2></header>
   <div class="main">  
     <h4>Хотите посмотреть все отзывы или оставить свой? Переходите на нашу <strong><a href="https://vk.com/reviews-211899135#" target="_blank" class="a">страницу в группе в ВКонтакте!</a></strong></h4>
-    <div class="feedbacks">
+    <div class="feedbacks" v-if="feedbacks.length">
       <div class="fdb" v-for="fdb in feedbacks">
         <div class="avtor"><p>{{fdb.avtor}}, {{ fdb.date }}</p></div>
         <span class="quote top">&#8222;</span>
-        <div class="text" v-html="fdb.text"></div>
+        <div class="text"><p v-html="fdb.text"></p></div>
         <span class="quote bot">&#8222;</span>
         <button class="btn btn-danger" @click="delFeedback(fdb._id)" v-if="isAdmin">Удалить</button>
       </div>
     </div>
+    
+    <div class="no_data" v-if="feedbacks.length < 1">Список отзывов пуст</div>
   </div>
 </template>
 <style scoped>
@@ -68,6 +85,7 @@ async function delFeedback(id) {
   flex-direction: column;
   align-items: flex-start;
   margin-top: 20px;
+  max-width: 100%;
 }
 .avtor{
   font-weight: bold;
@@ -95,5 +113,12 @@ async function delFeedback(id) {
 }
 h4{
   text-align: center;
+}
+.no_data{
+  font-size: x-large;
+  color: rgb(110, 110, 110);
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
 }
 </style>

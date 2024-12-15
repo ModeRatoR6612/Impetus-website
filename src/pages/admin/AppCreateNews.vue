@@ -32,9 +32,11 @@ const editor = useEditor({
 
 
 onBeforeMount(async ()=>{
-  let response = await axios.get('/createNews');
-  isAdmin.value = response.data;
-  console.log(isAdmin);
+  if (sessionStorage.getItem('isAdmin') == 'false') {
+    isAdmin.value = false;
+  } else{
+    isAdmin.value = true;
+  }
 })
 
 let onFileChange = (e) => {

@@ -20,9 +20,11 @@ let text = ref();
 let avtor = ref();
 
 onBeforeMount(async () =>{
-  let response = await axios.get('/createFestival');
-  isAdmin.value = response.data;
-  console.log(isAdmin);
+  if (sessionStorage.getItem('isAdmin') == 'false') {
+    isAdmin.value = false;
+  } else{
+    isAdmin.value = true;
+  }
 });
 
 

@@ -1,6 +1,4 @@
 <script setup>
-import axios from 'axios'
-axios.defaults.headers.post['Content-Type'] = 'application/json'
 import {ref} from 'vue'
 
 const trueLogin = 'impetus39';
@@ -11,9 +9,9 @@ let login = ref('');
 let password = ref('');
 
 async function checkLog() {
-  if (login.value == trueLogin & password.value == truePassword) {
+  if (login.value == trueLogin && password.value == truePassword) {
     isLog.value = true;
-    await axios.post('/login', {isAdmin: true});
+    sessionStorage.setItem('isAdmin', true);
   }
   else{
     isLog.value = false;
