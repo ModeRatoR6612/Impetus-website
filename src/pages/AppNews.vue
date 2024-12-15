@@ -27,10 +27,10 @@ export default{
     async loadData(){
       let response = await axios.get('/news');
       this.cards = response.data.news;
-      if (sessionStorage.getItem('isAdmin') == 'false') {
-        this.isAdmin = false;
-      } else{
+      if (sessionStorage.getItem('isAdmin') == 'true') {
         this.isAdmin = true;
+      } else{
+        this.isAdmin = false;
       }
     },
     openModal(e){

@@ -18,10 +18,10 @@ function convertHtml(html) {
 
 async function getFeedbacks(){
   let response = await axios.get('/feedbacks');
-  if (sessionStorage.getItem('isAdmin') == 'false') {
-    isAdmin.value = false;
-  } else{
+  if (sessionStorage.getItem('isAdmin') == 'true') {
     isAdmin.value = true;
+  } else{
+    isAdmin.value = false;
   }
   feedbacks.value = response.data.feedbacks.map(fdb => ({
     ...fdb,

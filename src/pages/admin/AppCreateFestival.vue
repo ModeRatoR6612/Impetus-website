@@ -28,10 +28,10 @@ let img = ref(null);
 let f = ref(null);
 
 onBeforeMount(async () =>{
-  if (sessionStorage.getItem('isAdmin') == 'false') {
-    isAdmin.value = false;
-  } else{
+  if (sessionStorage.getItem('isAdmin') == 'true') {
     isAdmin.value = true;
+  } else{
+    isAdmin.value = false;
   }
 });
 

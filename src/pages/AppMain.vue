@@ -21,10 +21,11 @@ export default{
       let response = await axios.get('/main');
       this.fests = response.data.cards;
       this.news = response.data.news;
-      if (sessionStorage.getItem('isAdmin') == 'false') {
-        this.isAdmin = false;
-      } else{
+      console.log(sessionStorage.getItem('isAdmin'))
+      if (sessionStorage.getItem('isAdmin') == 'true') {
         this.isAdmin = true;
+      } else{
+        this.isAdmin = false;
       }
       console.log(this.isAdmin);
     },

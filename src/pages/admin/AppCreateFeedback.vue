@@ -20,10 +20,10 @@ let text = ref();
 let avtor = ref();
 
 onBeforeMount(async () =>{
-  if (sessionStorage.getItem('isAdmin') == 'false') {
-    isAdmin.value = false;
-  } else{
+  if (sessionStorage.getItem('isAdmin') == 'true') {
     isAdmin.value = true;
+  } else{
+    isAdmin.value = false;
   }
 });
 
